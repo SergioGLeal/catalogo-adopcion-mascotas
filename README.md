@@ -1,1 +1,1 @@
-"# Catalogo adopci¢n de mascotas" 
+"# Catalogo adopcion de mascotas" 
