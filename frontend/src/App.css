@@ -1,0 +1,253 @@
+/* RESET de márgenes para que no haya espacios blancos a los lados */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --naranja-principal: #ff8c00;
+  --naranja-oscuro: #e67e00;
+  --texto-oscuro: #2d3436;
+  --texto-gris: #636e72;
+  --blanco: #ffffff;
+  --fondo-gris: #f1f2f6;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--fondo-gris);
+  color: var(--texto-oscuro);
+  width: 100%;
+  overflow-x: hidden; /* Evita scroll horizontal indeseado */
+}
+
+.container {
+  width: 100vw; /* 100% del ancho de la ventana */
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVBAR y HERO: Estos DEBEN ser 100% reales */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background: var(--blanco);
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  background-color: var(--blanco);
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 2rem;
+  color: var(--texto-oscuro);
+}
+
+/* GRID: Aquí es donde controlamos el ancho de las tarjetas */
+.grid {
+  display: grid;
+  width: 100%;
+  max-width: 1200px; /* Ancho máximo para que no se separen de más */
+  margin: 0 auto;    /* Esto centra el grupo de tarjetas */
+  padding: 3rem 2rem;
+  /* Ajuste de columnas para que se vea igual al wireframe */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* Tarjetas (Cards) */
+.card {
+  background: var(--blanco);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.card:hover { transform: translateY(-5px); }
+
+.card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.card-info { padding: 20px; }
+
+/* Botones de Filtro (Estilo Wireframe) */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 1rem;
+}
+
+.filter-container button {
+  padding: 10px 25px;
+  border-radius: 30px;
+  border: 2px solid var(--naranja-principal);
+  background: transparent;
+  color: var(--naranja-principal);
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-container button.active {
+  background: var(--naranja-principal);
+  color: white;
+}
+
+.btn-login {
+  background: var(--texto-oscuro);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.login-form {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 350px;
+}
+
+.login-form input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.login-form button {
+  background: var(--naranja-principal);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.error-msg {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  text-align: center;
+}
+/* Estilos para el Panel de Admin */
+.admin-container {
+  padding: 2rem 10%;
+  background: white;
+  margin: 2rem auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  max-width: 1200px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  text-align: left;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: var(--fondo-gris);
+  color: var(--texto-oscuro);
+}
+
+.btn-delete {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-delete:hover {
+  background: #ff6b81;
+}
+.admin-container {
+  padding: 2rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form-section {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.admin-form input, .admin-form select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.btn-add {
+  background: var(--naranja-principal);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  grid-column: span 1;
+}
+
+.btn-add:hover { background: var(--naranja-oscuro); }
+
+.table-section {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.footer {
+  background: var(--texto-oscuro);
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  margin-top: auto; /* Empuja el footer al fondo si hay poco contenido */
+}

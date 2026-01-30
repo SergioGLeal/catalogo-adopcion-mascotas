@@ -2,23 +2,27 @@ const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 
 const login = async (req, res) => {
+  const { nombre_usuario, contrasena } = req.body;
+  console.log("Intentando login para:", nombre_usuario);
+
   try {
-    const { nombre_usuario, contrasena } = req.body;
-    
-    // 1. Buscar al usuario
     const [rows] = await db.query('SELECT * FROM usuarios WHERE nombre_usuario = ?', [nombre_usuario]);
     
     if (rows.length === 0) {
-      return res.status(401).json({ mensaje: 'Usuario o contraseña incorrectos' });
+      console.log("Usuario no encontrado en la DB");
+      return res.status(401).json({ mensaje: 'Usuario no encontrado' });
     }
 
     const usuario = rows[0];
+    console.log("Usuario encontrado:", usuario.nombre_usuario);
+    console.log("Hash en DB:", usuario.contrasena);
+    console.log("Longitud del hash en DB:", usuario.contrasena.length);
 
-    // 2. Comparar contraseña con bcrypt
     const esValida = await bcrypt.compare(contrasena, usuario.contrasena);
+    console.log("¿Es válida según Bcrypt?:", esValida);
 
     if (!esValida) {
-      return res.status(401).json({ mensaje: 'Usuario o contraseña incorrectos' });
+      return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
     }
 
     // 3. Respuesta exitosa

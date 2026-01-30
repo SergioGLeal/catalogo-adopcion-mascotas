@@ -1,4 +1,5 @@
 const Mascota = require('../models/mascotas.model');
+const db = require('../config/db');
 
 const obtenerMascotas = async (req, res) => {
   try {
@@ -12,13 +13,30 @@ const obtenerMascotas = async (req, res) => {
 
 const crearMascota = async (req, res) => {
   try {
-    const id = await Mascota.create(req.body);
-    res.status(201).json({ mensaje: 'Mascota creada', id });
+    // Extraemos especie_id del body
+    const { nombre, edad, tamano, estado, imagen_url, especie_id } = req.body;
+    
+    // SQL con los nombres exactos de tu tabla
+    const query = `
+      INSERT INTO mascotas (nombre, edad, tamano, estado, imagen_url, especie_id) 
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    
+    await db.query(query, [
+  nombre, 
+  Number(edad), 
+  tamano, 
+  estado, 
+  imagen_url, 
+  Number(especie_id) 
+]);
+    
+    res.json({ mensaje: 'Mascota creada exitosamente' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error en el Backend:", error);
+    res.status(500).json({ error: 'Fallo al insertar mascota' });
   }
 };
-
 const actualizarMascota = async (req, res) => {
   try {
     const { id } = req.params;
