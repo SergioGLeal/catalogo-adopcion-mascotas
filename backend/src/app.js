@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // <-- NUEVO: Para manejar rutas de carpetas
 const authRoutes = require('./routes/auth.routes');
 const mascotasRoutes = require('./routes/mascotas.routes');
 
@@ -8,6 +9,10 @@ const app = express();
 // Middlewares Globales
 app.use(cors());
 app.use(express.json());
+
+// NUEVO: Servir carpeta de subidas de forma pública
+// Esto hace que los archivos en 'public/uploads' sean accesibles vía URL
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
 // Rutas
 app.use('/api/auth', authRoutes);

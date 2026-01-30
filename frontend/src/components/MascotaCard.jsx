@@ -1,10 +1,24 @@
 const MascotaCard = ({ mascota }) => {
-  // Función para normalizar el estado y que coincida con el CSS (ej: "En Proceso" -> "en-proceso")
+  // Obtenemos la URL del backend desde el .env
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
+  // Normalizar el estado para el CSS
   const estadoClase = mascota.estado.toLowerCase().replace(/\s+/g, '-');
+
+  // Lógica para la imagen:
+  // Si empieza con http, es una URL externa. 
+  // Si no, le concatenamos la dirección de nuestro servidor.
+  const fullImageUrl = mascota.imagen_url?.startsWith('http') 
+    ? mascota.imagen_url 
+    : `${BASE_URL}${mascota.imagen_url}`;
 
   return (
     <div className="card">
-      <img src={mascota.imagen_url} alt={mascota.nombre} />
+      <img 
+        src={fullImageUrl} 
+        alt={mascota.nombre} 
+        onError={(e) => e.target.src = 'https://via.placeholder.com/400x300?text=No+Image'}
+      />
       <div className="card-info">
         <h3>{mascota.nombre}</h3>
         <p><strong>{mascota.especie}</strong></p>

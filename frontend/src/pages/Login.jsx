@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'; // Alertas profesionales
 import api from '../api/axios';
 
 const Login = () => {
   const [usuario, setUsuario] = useState({ nombre_usuario: '', contrasena: '' });
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -13,32 +13,85 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Alerta de "Cargando"
+    Swal.fire({
+      title: 'Verificando credenciales...',
+      allowOutsideClick: false,
+      didOpen: () => { Swal.showLoading(); }
+    });
+
     try {
       const { data } = await api.post('/auth/login', usuario);
-      // Guardamos el rol para saber qué mostrar después
-      localStorage.setItem('userRole', data.usuario.rol);
-      localStorage.setItem('userName', data.usuario.nombre);
       
-      if (data.usuario.rol === 'admin') {
-        navigate('/admin'); // Aquí irá el CRUD de mascotas
-      } else {
-        navigate('/'); // Usuario normal vuelve al catálogo
-      }
+      localStorage.setItem('userRole', data.usuario.rol);
+      localStorage.setItem('userName', data.usuario.nombre_usuario);
+      
+      // Alerta de Éxito
+      Swal.fire({
+        icon: 'success',
+        title: `¡Bienvenido, ${data.usuario.nombre_usuario}!`,
+        text: 'Acceso concedido al sistema',
+        timer: 2000,
+        showConfirmButton: false
+      }).then(() => {
+        navigate('/');
+        window.location.reload();
+      });
+      
     } catch (error) {
-        console.error(error); 
-        setError('Credenciales inválidas');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de acceso',
+          text: 'Usuario o contraseña incorrectos',
+          confirmButtonColor: '#ff8c00'
+        });
     }
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>Iniciar Sesión</h2>
-        {error && <p className="error-msg">{error}</p>}
-        <input name="nombre_usuario" placeholder="Usuario" onChange={handleChange} required />
-        <input name="contrasena" type="password" placeholder="Contraseña" onChange={handleChange} required />
-        <button type="submit">Entrar</button>
-      </form>
+    <div className="login-page">
+      <div className="login-overlay">
+        <div className="login-card">
+          <div className="login-header">
+            <span className="login-icon">🐾</span>
+            <h1>Huellitas Login</h1>
+            <p>Gestión de Adopciones y Mascotas</p>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="login-form-premium">
+            <div className="input-group">
+              <label>Usuario</label>
+              <input 
+                name="nombre_usuario" 
+                type="text"
+                placeholder="Ingresa tu usuario" 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Contraseña</label>
+              <input 
+                name="contrasena" 
+                type="password" 
+                placeholder="••••••••" 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <button type="submit" className="btn-premium">
+              Entrar al Portal
+            </button>
+          </form>
+          
+          <div className="login-footer">
+            <p>© 2026 Huellitas Cloud Systems</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

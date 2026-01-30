@@ -1,4 +1,6 @@
-/* RESET de márgenes para que no haya espacios blancos a los lados */
+/* =========================================
+   1. RESET Y VARIABLES CORPORATIVAS
+   ========================================= */
 * {
   margin: 0;
   padding: 0;
@@ -8,246 +10,347 @@
 :root {
   --naranja-principal: #ff8c00;
   --naranja-oscuro: #e67e00;
-  --texto-oscuro: #2d3436;
-  --texto-gris: #636e72;
+  --texto-oscuro: #1e272e;
+  --texto-gris: #7f8c8d;
   --blanco: #ffffff;
-  --fondo-gris: #f1f2f6;
+  --fondo-gris: #f4f7f6;
+  --azul-admin: #3498db;
+  --rojo-delete: #ff4757;
+  --verde-ok: #2ed573;
+  --shadow-premium: 0 10px 30px rgba(0,0,0,0.08);
+  --glass-bg: rgba(255, 255, 255, 0.95);
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
   background-color: var(--fondo-gris);
   color: var(--texto-oscuro);
-  width: 100%;
-  overflow-x: hidden; /* Evita scroll horizontal indeseado */
+  line-height: 1.6;
 }
 
-.container {
-  width: 100vw; /* 100% del ancho de la ventana */
-  display: flex;
-  flex-direction: column;
-}
-
-/* NAVBAR y HERO: Estos DEBEN ser 100% reales */
+/* =========================================
+   2. ESTRUCTURA Y NAVEGACIÓN
+   ========================================= */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 5%;
+  padding: 1.2rem 8%;
   background: var(--blanco);
-  width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  position: relative;
-  z-index: 10;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.hero {
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--naranja-principal);
+  text-decoration: none;
+}
+
+/* =========================================
+   3. LOGIN PREMIUM
+   ========================================= */
+.login-page {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&q=80&w=2000');
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.login-overlay {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.login-card {
+  background: var(--glass-bg);
+  padding: 3.5rem;
+  border-radius: 28px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 460px;
   text-align: center;
-  padding: 4rem 1rem;
-  background-color: var(--blanco);
-  border-bottom: 1px solid #ddd;
-  width: 100%;
+  animation: fadeInDown 0.7s ease-out;
 }
 
-.hero h1 {
-  font-size: 2.8rem;
-  margin-bottom: 2rem;
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
   color: var(--texto-oscuro);
 }
 
-/* GRID: Aquí es donde controlamos el ancho de las tarjetas */
-.grid {
-  display: grid;
+.input-group input {
   width: 100%;
-  max-width: 1200px; /* Ancho máximo para que no se separen de más */
-  margin: 0 auto;    /* Esto centra el grupo de tarjetas */
-  padding: 3rem 2rem;
-  /* Ajuste de columnas para que se vea igual al wireframe */
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
+  padding: 1rem 1.2rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 14px;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.3s ease;
 }
 
-/* Tarjetas (Cards) */
-.card {
-  background: var(--blanco);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-}
-
-.card:hover { transform: translateY(-5px); }
-
-.card img {
+.btn-premium {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.card-info { padding: 20px; }
-
-/* Botones de Filtro (Estilo Wireframe) */
-.filter-container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+  padding: 1.1rem;
+  background: linear-gradient(135deg, var(--naranja-principal), #ff6b00);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
   margin-top: 1rem;
 }
 
+/* =========================================
+   4. HOME Y CATÁLOGO
+   ========================================= */
+.hero {
+  text-align: center;
+  padding: 5rem 1rem;
+  background: var(--blanco);
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
 .filter-container button {
-  padding: 10px 25px;
-  border-radius: 30px;
-  border: 2px solid var(--naranja-principal);
-  background: transparent;
-  color: var(--naranja-principal);
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: 2px solid #eee;
+  background: white;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
+  transition: all 0.3s;
 }
 
 .filter-container button.active {
   background: var(--naranja-principal);
   color: white;
+  border-color: var(--naranja-principal);
 }
 
-.btn-login {
-  background: var(--texto-oscuro);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70vh;
+.grid {
+  display: grid;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 35px;
 }
 
-.login-form {
-  background: white;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 350px;
+.card {
+  background: var(--blanco);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-premium);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.login-form input {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.login-form button {
-  background: var(--naranja-principal);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.error-msg {
-  color: #e74c3c;
-  font-size: 0.9rem;
-  text-align: center;
-}
-/* Estilos para el Panel de Admin */
-.admin-container {
-  padding: 2rem 10%;
-  background: white;
-  margin: 2rem auto;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  max-width: 1200px;
-}
-
-table {
+.card img {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  height: 280px;
+  object-fit: cover;
+  display: block;
 }
 
-th, td {
-  text-align: left;
-  padding: 15px;
-  border-bottom: 1px solid #eee;
+.card-info {
+  padding: 1.5rem;
 }
 
-th {
-  background-color: var(--fondo-gris);
-  color: var(--texto-oscuro);
-}
-
-.btn-delete {
-  background: #ff4757;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-delete:hover {
-  background: #ff6b81;
-}
+/* =========================================
+   5. PANEL ADMINISTRATIVO (ACTUALIZADO)
+   ========================================= */
 .admin-container {
-  padding: 2rem 5%;
+  padding: 3rem 5%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.form-section {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  margin-bottom: 40px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+.form-section, .table-section {
+  background: var(--blanco);
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: var(--shadow-premium);
+  margin-bottom: 3rem;
 }
 
+/* FORMULARIO ADMIN CENTRADO Y ESPACIADO */
 .admin-form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Interlineado vertical */
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.admin-form input, .admin-form select {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.admin-form select, .admin-form input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
+  border-radius: 12px;
+  width: 100%;
   font-size: 1rem;
+  transition: border-color 0.3s;
 }
 
+.admin-form input:focus {
+  border-color: var(--naranja-principal);
+  outline: none;
+}
+
+/* PREVISUALIZACIÓN DE IMAGEN ESTÁNDAR */
+.img-preview {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 15px;
+  border: 4px solid var(--fondo-gris);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 10px auto;
+  display: block;
+}
+
+/* TABLA ADMIN CENTRADA Y ESPACIADA */
+.table-section {
+  overflow-x: auto;
+}
+
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.table-section th {
+  background-color: #f8fafc;
+  padding: 1.2rem;
+  text-align: left;
+  color: var(--texto-gris);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid #edf2f7;
+}
+
+.table-section td {
+  padding: 1.2rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 0.95rem;
+}
+
+.table-section tr:hover td {
+  background-color: #fcfcfc;
+}
+
+/* BADGES DE TABLA */
+.badge-tabla {
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+/* =========================================
+   6. BOTONES Y EXTRAS
+   ========================================= */
 .btn-add {
   background: var(--naranja-principal);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: bold;
+  padding: 14px 25px;
+  border-radius: 12px;
+  font-weight: 700;
   cursor: pointer;
-  grid-column: span 1;
+  transition: all 0.3s ease;
 }
 
-.btn-add:hover { background: var(--naranja-oscuro); }
-
-.table-section {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+.btn-add:hover {
+  background: var(--naranja-oscuro);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
 }
+
+.btn-delete {
+  background: var(--rojo-delete);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-admin {
+  background: var(--azul-admin);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-login {
+  background: var(--azul-admin);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .footer {
   background: var(--texto-oscuro);
-  color: white;
+  color: var(--blanco);
+  padding: 4rem 1rem;
   text-align: center;
-  padding: 2rem;
-  margin-top: auto; /* Empuja el footer al fondo si hay poco contenido */
 }
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid #eee; border-left-color: var(--naranja-principal);
+  border-radius: 50%; animation: spin 1s linear infinite; margin: 2rem auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,122 +1,230 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import api from '../api/axios';
 
 const Admin = () => {
   const [mascotas, setMascotas] = useState([]);
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
+  const [preview, setPreview] = useState(null);
   
-  // CORRECCIÓN 1: El estado inicial debe tener 'especie_id'
-  const [form, setForm] = useState({
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
+  const estadoInicial = {
     nombre: '', 
-    especie_id: '1', // Valor inicial (1 = Perro)
+    especie_id: '1', 
     edad: '', 
     tamano: 'Mediano', 
-    estado: 'Disponible', 
+    estado: 'Disponible',
     imagen_url: ''
-  });
-  
+  };
+
+  const [form, setForm] = useState(estadoInicial);
   const navigate = useNavigate();
 
   const refrescarLista = async () => {
     try {
       const { data } = await api.get('/mascotas');
       setMascotas(data);
-    } catch (err) {
-      console.error("Error al refrescar:", err);
-    }
+    } catch (err) { console.error(err); }
   };
 
   useEffect(() => {
     const role = localStorage.getItem('userRole');
-    if (role !== 'admin') {
-      navigate('/');
-      return;
-    }
-
-    const cargarInicial = async () => {
-      try {
-        const { data } = await api.get('/mascotas');
-        setMascotas(data);
-      } catch (err) {
-        console.error("Error inicial:", err);
-      }
-    };
-
-    cargarInicial();
+    if (role !== 'admin') { navigate('/'); return; }
+    refrescarLista();
   }, [navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setArchivoSeleccionado(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // CORRECCIÓN 2: Aseguramos que los datos vayan correctos al Backend
-      await api.post('/mascotas', form);
-      alert('¡Mascota registrada!');
-      
-      // CORRECCIÓN 3: Limpiamos el formulario usando los nombres correctos
-      setForm({ 
-        nombre: '', 
-        especie_id: '1', 
-        edad: '', 
-        tamano: 'Mediano', 
-        estado: 'Disponible', 
-        imagen_url: '' 
-      });
-      
-      refrescarLista();
-    } catch (err) {
-      console.error("Error al guardar:", err);
-      alert("Hubo un error al guardar la mascota");
+  e.preventDefault();
+  const formData = new FormData();
+  
+  // Forzamos que los nombres coincidan exactamente con lo que el modelo espera
+  formData.append('nombre', form.nombre);
+  formData.append('edad', form.edad);
+  formData.append('especie_id', form.especie_id);
+  formData.append('tamano', form.tamano);
+  formData.append('estado', form.estado);
+  
+  if (archivoSeleccionado) {
+    formData.append('imagen', archivoSeleccionado);
+  }
+
+  try {
+    const config = {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    };
+
+    if (modoEdicion) {
+      // Verifica que editId sea el número correcto
+      await api.put(`/mascotas/${editId}`, formData, config);
+      Swal.fire('Actualizado', 'Mascota actualizada con éxito', 'success');
+    } else {
+      await api.post('/mascotas', formData, config);
+      Swal.fire('Registrado', 'Mascota creada correctamente', 'success');
+    }
+    cancelarEdicion();
+    refrescarLista();
+  } catch (err) {
+    console.error("Error en el envío:", err.response?.data || err.message);
+    Swal.fire('Error', 'No se pudo procesar la solicitud', 'error');
+  }
+};
+
+  const prepararEdicion = (m) => {
+  setModoEdicion(true);
+  setEditId(m.id);
+
+  // LOG de control para que veas en la consola del navegador qué llega
+  console.log("Mascota a editar:", m);
+
+  setForm({
+    nombre: m.nombre,
+    // IMPORTANTE: m.especie_id debe venir de la consulta GET del backend
+    // Si tu backend devuelve el nombre como 'especie', asegúrate de tener el ID
+    especie_id: m.especie_id ? String(m.especie_id) : '1', 
+    edad: m.edad,
+    tamano: m.tamano || 'Mediano',
+    estado: m.estado || 'Disponible',
+    imagen_url: m.imagen_url
+  });
+
+  setPreview(m.imagen_url ? `${BASE_URL}${m.imagen_url}` : null);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+  const cancelarEdicion = () => {
+    setForm(estadoInicial);
+    setModoEdicion(false);
+    setEditId(null);
+    setArchivoSeleccionado(null);
+    setPreview(null);
+    if (document.getElementById('fileInput')) {
+      document.getElementById('fileInput').value = "";
     }
   };
 
   const handleEliminar = async (id) => {
-    if (window.confirm('¿Eliminar mascota?')) {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esta acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ff4757',
+      confirmButtonText: 'Sí, eliminar'
+    });
+
+    if (result.isConfirmed) {
       try {
         await api.delete(`/mascotas/${id}`);
-        setMascotas(prev => prev.filter(m => m.id !== id));
-      } catch (err) {
-        console.error(err);
-      }
+        refrescarLista();
+        Swal.fire('Eliminado', 'La mascota ha sido borrada.', 'success');
+      } catch (err) { console.error(err); }
     }
   };
 
   return (
     <div className="admin-container">
-      <h1>Panel Administrativo</h1>
+      <header className="admin-header">
+        <h1>{modoEdicion ? '📝 Editando Mascota' : '⚙️ Panel Administrativo'}</h1>
+        <p>Gestiona el inventario de adopciones de Huellitas</p>
+      </header>
+
       <section className="form-section">
-        <h2>Nueva Mascota</h2>
+        <h2>{modoEdicion ? 'Actualizar Datos' : 'Registrar Nueva Mascota'}</h2>
         <form onSubmit={handleSubmit} className="admin-form">
           <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} required />
           <input name="edad" type="number" placeholder="Edad" value={form.edad} onChange={handleChange} required />
           
-          {/* El 'name' debe ser igual a la llave del objeto 'form' */}
           <select name="especie_id" value={form.especie_id} onChange={handleChange}>
             <option value="1">Perro</option>
             <option value="2">Gato</option>
             <option value="3">Ave</option>
           </select>
 
-          <input name="imagen_url" placeholder="URL Imagen" value={form.imagen_url} onChange={handleChange} required />
-          <button type="submit" className="btn-add">Guardar</button>
+          <select name="tamano" value={form.tamano} onChange={handleChange}>
+            <option value="Pequeño">Pequeño</option>
+            <option value="Mediano">Mediano</option>
+            <option value="Grande">Grande</option>
+          </select>
+
+          <select name="estado" value={form.estado} onChange={handleChange}>
+            <option value="Disponible">Disponible</option>
+            <option value="En Proceso">En Proceso</option>
+            <option value="Adoptado">Adoptado</option>
+          </select>
+
+          <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+            <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Foto de la mascota:</label>
+            <input 
+              id="fileInput"
+              type="file" 
+              accept="image/*" 
+              onChange={handleFileChange} 
+              required={!modoEdicion}
+              className="file-input"
+            />
+{preview && (
+  <div style={{ textAlign: 'center', marginTop: '10px' }}>
+    <img 
+      src={preview} 
+      alt="Vista previa" 
+      className="img-preview" // <-- Usa la clase CSS aquí
+    />
+    <p style={{ fontSize: '0.7rem', color: '#7f8c8d' }}>Vista previa de la imagen</p>
+  </div>
+)}
+          </div>
+
+          <div style={{ gridColumn: '1/-1', display: 'flex', gap: '10px', marginTop: '10px' }}>
+            <button type="submit" className="btn-add" style={{ flex: 2 }}>
+              {modoEdicion ? 'Guardar Cambios' : 'Registrar Mascota'}
+            </button>
+            {modoEdicion && (
+              <button type="button" className="btn-delete" style={{ flex: 1 }} onClick={cancelarEdicion}>
+                Cancelar
+              </button>
+            )}
+          </div>
         </form>
       </section>
 
       <section className="table-section">
         <table>
           <thead>
-            <tr><th>Nombre</th><th>ID Especie</th><th>Acciones</th></tr>
+            <tr>
+              <th>Nombre</th>
+              <th>Especie</th>
+              <th>Edad</th>
+              <th>Tamaño</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
           </thead>
           <tbody>
             {mascotas.map(m => (
               <tr key={m.id}>
-                <td>{m.nombre}</td>
-                {/* Mostramos el ID de la especie por ahora */}
-                <td>{m.especie_id}</td>
+                <td><strong>{m.nombre}</strong></td>
+                <td>{m.especie || (m.especie_id == 1 ? 'Perro' : m.especie_id == 2 ? 'Gato' : 'Ave')}</td>
+                <td>{m.edad} años</td>
+                <td>{m.tamano}</td>
+                <td><span className="badge-tabla">{m.estado}</span></td>
                 <td>
+                  <button className="btn-admin" style={{ backgroundColor: '#f1c40f', marginRight: '5px' }} onClick={() => prepararEdicion(m)}>Editar</button>
                   <button className="btn-delete" onClick={() => handleEliminar(m.id)}>Eliminar</button>
                 </td>
               </tr>

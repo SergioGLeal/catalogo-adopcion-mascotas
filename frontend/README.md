@@ -1,16 +1,41 @@
-# React + Vite
+🐾 Huellitas - Plataforma de Adopción de Mascotas
+¡Bienvenido a Huellitas! Este es un sistema completo (Full Stack) diseñado para gestionar la adopción de mascotas. Incluye un catálogo para usuarios y un panel administrativo protegido para la gestión de mascotas con subida de imágenes local.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🛠️ Tecnologías utilizadas
+Frontend: React (Vite), React Router Dom, SweetAlert2, Axios.
 
-Currently, two official plugins are available:
+Backend: Node.js, Express, Multer (Gestión de archivos).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Base de Datos: MySQL.
 
-## React Compiler
+Configuración del Proyecto
+Sigue estos pasos para ejecutar el proyecto en tu máquina local:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1 Configurar el Backend
+Entra a la carpeta: cd backend
 
-## Expanding the ESLint configuration
+Instala las dependencias: npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Importante: Asegúrate de tener una base de datos MySQL llamada huellitas y ejecuta el script SQL (adjunto en la carpeta /database si lo tienes).
+
+Configura tu conexión en src/config/db.js.
+
+La carpeta public/uploads se creará automáticamente al iniciar el servidor gracias al middleware de Multer.
+
+Ejecuta el servidor:
+npm start (o node server.js)
+
+2 Configurar el Frontend
+Abre una nueva terminal y entra a la carpeta: cd frontend
+
+Instala las dependencias: npm install
+
+Variables de Entorno: Crea un archivo llamado .env en la raíz de la carpeta frontend y añade:
+VITE_API_URL=http://localhost:3000
+
+Inicia la aplicación:
+npm run dev
+
+🔑 Accesos/Contraseñas
+Administrador: admin-admin123
+Usuario Normal: Usuario-user123

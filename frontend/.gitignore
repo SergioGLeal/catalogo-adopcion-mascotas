@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+public/uploads/*
+!public/uploads/.gitkeep
+!public/uploads/mascota-1769809906967-735069701.jpg
+!public/uploads/mascota-1769809906967-735069701.jpg
+!public/uploads/mascota-1769809964848-547845249.jpg
+!public/uploads/mascota-1769810014994-929546399.jpg
+!public/uploads/mascota-1769810077902-2128527.jpg
+!public/uploads/mascota-1769810113926-603834923.jpg
