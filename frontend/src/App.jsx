@@ -44,7 +44,7 @@ function App() {
               </button>
             </Link>
           )}
-          <button className="btn-login" onClick={handleLogout} style={{ backgroundColor: '#e74c3c' }}>
+          <button className="btn-logout" onClick={handleLogout} style={{ backgroundColor: '#e74c3c' }}>
             Cerrar Sesión
           </button>
         </div>
