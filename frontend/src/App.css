@@ -279,143 +279,162 @@ body {
 }
 
 /* CARDS — versión mejorada con mejor disposición de textos */
+/* =========================================
+   CARDS REDISEÑADAS CON MARCO Y DETALLES
+   ========================================= */
 .card {
   background: var(--blanco);
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: var(--shadow-premium);
-  transition: all 0.4s ease;
+  /* Marco sutil definido */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
   flex-direction: column;
 }
 
 .card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: var(--naranja-principal);
 }
 
-.card img {
+.card-image-container {
+  position: relative;
   width: 100%;
-  height: 300px;
+  height: 250px;
+  overflow: hidden;
+}
+
+.card-image-container img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  display: block;
+  transition: transform 0.6s ease;
+}
+
+.card:hover .card-image-container img {
+  transform: scale(1.08);
+}
+
+/* Línea divisoria entre imagen e información */
+.card-divider {
+  height: 4px;
+  background: linear-gradient(to right, var(--naranja-principal), #ffcc80);
+  width: 100%;
 }
 
 .card-info {
-  padding: 1.6rem 1.8rem 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  gap: 1.2rem;
 }
 
-.card-info h3 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  margin-bottom: 0.75rem;
-  color: var(--texto-oscuro);
-  line-height: 1.3;
+.card-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.card-info .description {
-  font-size: 0.97rem;
-  color: var(--texto-gris);
-  margin-bottom: 1.25rem;
-  line-height: 1.55;
-  flex-grow: 1;
-}
-
-.card-info .price {
+.card-header-info h3 {
   font-size: 1.4rem;
+  color: var(--texto-oscuro);
   font-weight: 800;
-  color: var(--naranja-principal);
-  margin-bottom: 1.2rem;
 }
 
-.card-info .price small {
-  font-size: 0.85rem;
-  font-weight: 500;
+.species-tag {
+  background: var(--fondo-gris);
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--texto-gris);
-  margin-left: 0.4rem;
 }
 
-/* =========================================
-   5. PANEL ADMINISTRATIVO
-   ========================================= */
-.admin-container {
-  padding: 3rem 5%;
-  max-width: 1200px;
-  margin: 0 auto;
+/* Grilla de detalles: Tamaño y Edad */
+.pet-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding: 12px 0;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.form-section, .table-section {
-  background: var(--blanco);
-  padding: 2.5rem;
-  border-radius: 24px;
-  box-shadow: var(--shadow-premium);
-  margin-bottom: 3rem;
-}
-
-.admin-form {
+.detail-item {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 700px;
-  margin: 0 auto;
 }
 
-.admin-form select, .admin-form input {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 1rem;
+.detail-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--texto-gris);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--texto-oscuro);
+}
+
+/* Badge de estado flotante sobre la imagen */
+.status-tag {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  padding: 8px 16px; /* Un poco más de aire */
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  border: 1.5px solid rgba(255, 255, 255, 0.3); /* Bordesito fino para dar calidad */
+  z-index: 10;
+}
+
+/* 1. DISPONIBLE: Verde éxito */
+.status-tag.disponible { 
+  background: linear-gradient(135deg, #2ed573, #26af5a); 
+}
+
+/* 2. EN ADOPCIÓN / PROCESO: Naranja/Ámbar (Indica que algo está pasando) */
+.status-tag.en-adopcion,
+.status-tag.en-proceso { 
+  background: linear-gradient(135deg, #ffa502, #ff7f50); 
+}
+
+/* 3. ADOPTADO: Gris azulado (Sello finalizado) */
+.status-tag.adoptado { 
+  background: linear-gradient(135deg, #ff4757, #ff6b81);
+  box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+}
+
+
+/* Botón interno de la card */
+.btn-details-card {
+  background: transparent;
+  border: 2px solid var(--naranja-principal);
+  color: var(--naranja-principal);
+  padding: 10px;
   border-radius: 12px;
-  width: 100%;
-  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
   transition: all 0.3s;
 }
 
-.admin-form input:focus {
-  border-color: var(--naranja-principal);
-  background: white;
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+.btn-details-card:hover {
+  background: var(--naranja-principal);
+  color: white;
 }
 
-.img-preview {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 18px;
-  border: 4px solid var(--fondo-gris);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  margin: 10px auto;
-  display: block;
-}
-
-.table-section {
-  overflow-x: auto;
-}
-
-.table-section table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table-section th {
-  background-color: #f8fafc;
-  padding: 1.2rem;
-  text-align: left;
-  color: var(--texto-gris);
-  font-size: 0.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  border-bottom: 2px solid #edf2f7;
-}
-
-.table-section td {
-  padding: 1.2rem;
-  border-bottom: 1px solid #edf2f7;
-  vertical-align: middle;
-}
 
 /* =========================================
    6. BOTONES, ESTADOS Y FOOTER
@@ -457,11 +476,83 @@ body {
 }
 
 .footer {
-  background: var(--texto-oscuro);
-  color: var(--blanco);
-  padding: 5rem 1rem;
+  background-color: var(--texto-oscuro);
+  color: white;
+  padding: 40px 20px 20px;
+  margin-top: 50px;
+}
+
+  .footer-content {
+  display: flex;
+  justify-content: space-between; /* Alineación separada en PC */
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left; /* Texto a la izquierda en PC */
+}
+
+  .footer-section {
+  display: block; /* Bloque normal para PC */
+}
+
+.footer-section h3, .footer-section h4 {
+  margin-bottom: 15px;
+  color: #3498db;
+}
+
+.footer-section p {
+  font-size: 0.9rem;
+  margin: 8px 0;
+  opacity: 0.8;
+}
+
+.footer-section i {
+  margin-right: 10px;
+  color: #3498db;
+}
+
+/* Contenedor de iconos */
+.social-links {
+    justify-content: center; /* Centrar iconos sociales */
+  }
+
+/* Quitar el margen derecho solo a los iconos de redes sociales */
+.social-icon i {
+  margin-right: 0 !important; 
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Asegurar que el enlace sea un flexbox perfecto */
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  line-height: 0; /* Evita espacios extra de línea */
+}
+
+.social-icon:hover {
+  background: #3498db;
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
   text-align: center;
-  margin-top: 6rem;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  opacity: 0.6;
 }
 
 .loading-state, .empty-state {
@@ -498,3 +589,349 @@ body {
   .main-content     { padding: 3.5rem 5%; }
   .card img         { height: 260px; }
 }
+/* =========================================
+   SECCIÓN DESTACADOS (3 tarjetas grandes)
+   ========================================= */
+.featured-section {
+  padding: 4rem 5%;
+  background: var(--blanco);
+  border-bottom: 1px solid #edf2f7;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Variante featured para MascotaCard (en tu componente MascotaCard) */
+.card.variant-featured {
+  border: 3px solid var(--naranja-principal);
+  box-shadow: 0 15px 40px rgba(255, 140, 0, 0.18);
+  transform: scale(1.02);
+}
+
+.card.variant-featured:hover {
+  transform: scale(1.06) translateY(-8px);
+}
+
+/* =========================================
+   SECCIÓN ESTADÍSTICAS / FEATURES
+   ========================================= */
+.stats-section {
+  padding: 6rem 5% 8rem;
+  /* Cambio de color: Un azul profundo para diferenciarlo del footer negro */
+  background-color: #2c3e50; 
+  color: var(--blanco);
+  text-align: center;
+}
+
+/* Clase auxiliar para que el encabezado se vea bien sobre fondo oscuro */
+.section-header.white-text h2 {
+  color: var(--blanco);
+}
+
+.section-header.white-text p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+}
+
+.stats-grid {
+  display: flex; /* Cambiado a flex para mejor control de centrado */
+  justify-content: center;
+  gap: 5rem;
+  max-width: 1100px;
+  margin: 4rem auto 0;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.stat-item h3 {
+  font-size: 1.5rem;
+  margin: 15px 0 10px 0;
+  color: #fff; /* O el color que prefieras */
+}
+
+.stat-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8); /* Un blanco ligeramente transparente para que no compita con el título */
+  max-width: 250px; /* Evita que el texto se estire demasiado hacia los lados */
+  margin: 0 auto;
+}
+
+.stat-circle {
+  width: 150px;
+  height: 150px;
+  background: var(--naranja-principal);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  /* Un pequeño borde para que resalte más */
+  border: 6px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover .stat-circle {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.stat-item p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Ajustes responsivos extra */
+@media (max-width: 768px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-section {
+    height: 70vh;
+  }
+  .stats-grid {
+    gap: 2.5rem;
+  }
+  .stat-circle {
+    width: 120px;
+    height: 120px;
+    font-size: 2rem;
+  }
+}
+/* SECCIÓN DESTACADOS MINIMALISTA - ESTILO RETRATO */
+.featured-mini-section {
+  padding: 5rem 5%;
+  background-color: var(--blanco);
+  border-top: 1px solid #eee;
+}
+
+.featured-horizontal-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px; /* Un poco más juntos para que se vea compacto */
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mini-profile-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 180px; /* Un poco más anchos que antes */
+  transition: transform 0.3s ease;
+}
+
+.mini-photo-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px; /* Altura rectangular */
+  margin-bottom: 12px;
+  overflow: hidden;
+  border-radius: 20px; /* Bordes suaves, no círculos */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.mini-photo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.mini-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--naranja-principal);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mini-profile-item h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--texto-oscuro);
+  letter-spacing: -0.5px;
+}
+
+/* Efecto Hover */
+.mini-profile-item:hover {
+  transform: translateY(-8px);
+}
+
+.mini-profile-item:hover img {
+  transform: scale(1.1);
+}
+
+.mini-profile-item:hover h4 {
+  color: var(--naranja-principal);
+}
+
+@media (max-width: 768px) {
+  .featured-horizontal-container {
+    gap: 20px;
+  }
+  .mini-profile-item {
+    width: 140px; /* Más pequeños en móvil para que quepan */
+  }
+  .mini-photo-wrapper {
+    height: 180px;
+  }
+}
+/* =========================================
+   AJUSTES DE UNIÓN Y ANIMACIONES
+   ========================================= */
+
+/* 1. Unir Estadísticas con Footer */
+.stats-section {
+  margin-top: 0; /* Eliminamos cualquier margen superior */
+  margin-bottom: 0; /* Eliminamos margen inferior */
+  padding-bottom: 8rem; /* Espacio interno para que no asfixie el contenido */
+}
+
+.footer {
+  margin-top: 0 !important; /* Forzamos que se pegue a la sección de arriba */
+  border-top: 1px solid rgba(255,255,255,0.1); /* Línea sutil de unión */
+}
+
+/* 2. Animaciones Sutiles (Fade In Up) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================
+   7. RESPONSIVIDAD MEJORADA (NAVBAR & FOOTER)
+   ========================================= */
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--naranja-principal);
+  cursor: pointer;
+  z-index: 1100; /* Por encima de todo */
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+
+  .auth-buttons {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: var(--blanco);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alineado arriba */
+    align-items: flex-start; /* Alineado a la izquierda del panel */
+    padding: 80px 30px; /* Espacio para el botón de cierre */
+    gap: 1rem;
+    transition: all 0.5s cubic-bezier(0.77,0.2,0.05,1);
+    box-shadow: -15px 0 35px rgba(0,0,0,0.15);
+    z-index: 1050;
+  }
+
+  .auth-buttons.open {
+    right: 0;
+  }
+
+  /* Título decorativo dentro del menú móvil */
+  .auth-buttons::before {
+    content: "MENÚ";
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--texto-gris);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .auth-buttons .btn-admin, 
+  .auth-buttons .btn-logout {
+    width: 100%;
+    margin: 0 !important;
+    padding: 14px 20px;
+    border-radius: 15px;
+    text-align: left; /* Texto a la izquierda para mejor lectura */
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Overlay corregido: sin desenfoque problemático */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040; /* Justo debajo del panel */
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+/* --- Estilos exclusivos para Móvil --- */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column; /* Apilar elementos uno sobre otro */
+    text-align: center;     /* Centrar todo el texto */
+    gap: 40px;
+  }
+
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* Centrar iconos y párrafos internamente */
+    width: 100%;
+  }
+
+}
+}
+
+/* Retrasos para que las cards aparezcan una tras otra */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+

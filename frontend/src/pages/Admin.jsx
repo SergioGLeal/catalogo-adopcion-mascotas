@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import api from '../api/axios';
+import '../desing/Admin.css';
 
 const Admin = () => {
   const [mascotas, setMascotas] = useState([]);
@@ -27,8 +28,14 @@ const Admin = () => {
   const refrescarLista = async () => {
     try {
       const { data } = await api.get('/mascotas');
-      setMascotas(data);
-    } catch (err) { console.error(err); }
+      
+      // ORDENAR: De la más antigua a la más nueva (ID menor a mayor)
+      const sortedMascotas = [...data].sort((a, b) => a.id - b.id);
+      
+      setMascotas(sortedMascotas);
+    } catch (err) { 
+      console.error("Error al refrescar la lista:", err); 
+    }
   };
 
   useEffect(() => {
@@ -145,62 +152,80 @@ const Admin = () => {
       </header>
 
       <section className="form-section">
-        <h2>{modoEdicion ? 'Actualizar Datos' : 'Registrar Nueva Mascota'}</h2>
-        <form onSubmit={handleSubmit} className="admin-form">
-          <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} required />
-          <input name="edad" type="number" placeholder="Edad" value={form.edad} onChange={handleChange} required />
-          
-          <select name="especie_id" value={form.especie_id} onChange={handleChange}>
-            <option value="1">Perro</option>
-            <option value="2">Gato</option>
-            <option value="3">Ave</option>
-          </select>
+  <h2>{modoEdicion ? 'Actualizar Datos' : 'Registrar Nueva Mascota'}</h2>
+  <form onSubmit={handleSubmit} className="admin-form">
+    
+    {/* Grupo 1: Datos básicos */}
+    <div className="form-grid">
+      <div className="input-group">
+        <label>Nombre de la mascota</label>
+        <input name="nombre" placeholder="Ej: Max" value={form.nombre} onChange={handleChange} required />
+      </div>
 
-          <select name="tamano" value={form.tamano} onChange={handleChange}>
-            <option value="Pequeño">Pequeño</option>
-            <option value="Mediano">Mediano</option>
-            <option value="Grande">Grande</option>
-          </select>
+      <div className="input-group">
+        <label>Edad (en años)</label>
+        <input name="edad" type="number" placeholder="Ej: 2" value={form.edad} onChange={handleChange} required />
+      </div>
 
-          <select name="estado" value={form.estado} onChange={handleChange}>
-            <option value="Disponible">Disponible</option>
-            <option value="En Proceso">En Proceso</option>
-            <option value="Adoptado">Adoptado</option>
-          </select>
+      <div className="input-group">
+        <label>Especie</label>
+        <select name="especie_id" value={form.especie_id} onChange={handleChange}>
+          <option value="1">Perro</option>
+          <option value="2">Gato</option>
+          <option value="3">Ave</option>
+        </select>
+      </div>
 
-          <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
-            <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Foto de la mascota:</label>
-            <input 
-              id="fileInput"
-              type="file" 
-              accept="image/*" 
-              onChange={handleFileChange} 
-              required={!modoEdicion}
-              className="file-input"
-            />
-{preview && (
-  <div style={{ textAlign: 'center', marginTop: '10px' }}>
-    <img 
-      src={preview} 
-      alt="Vista previa" 
-      className="img-preview" // <-- Usa la clase CSS aquí
-    />
-    <p style={{ fontSize: '0.7rem', color: '#7f8c8d' }}>Vista previa de la imagen</p>
-  </div>
-)}
-          </div>
+      <div className="input-group">
+        <label>Tamaño</label>
+        <select name="tamano" value={form.tamano} onChange={handleChange}>
+          <option value="Pequeño">Pequeño</option>
+          <option value="Mediano">Mediano</option>
+          <option value="Grande">Grande</option>
+        </select>
+      </div>
 
-          <div style={{ gridColumn: '1/-1', display: 'flex', gap: '10px', marginTop: '10px' }}>
-            <button type="submit" className="btn-add" style={{ flex: 2 }}>
-              {modoEdicion ? 'Guardar Cambios' : 'Registrar Mascota'}
-            </button>
-            {modoEdicion && (
-              <button type="button" className="btn-delete" style={{ flex: 1 }} onClick={cancelarEdicion}>
-                Cancelar
-              </button>
-            )}
-          </div>
-        </form>
+      <div className="input-group">
+        <label>Estado de adopción</label>
+        <select name="estado" value={form.estado} onChange={handleChange}>
+          <option value="Disponible">Disponible</option>
+          <option value="En Proceso">En Proceso</option>
+          <option value="Adoptado">Adoptado</option>
+        </select>
+      </div>
+
+      <div className="input-group">
+        <label>Fotografía</label>
+        <input 
+          id="fileInput"
+          type="file" 
+          accept="image/*" 
+          onChange={handleFileChange} 
+          required={!modoEdicion}
+          className="file-input"
+        />
+      </div>
+    </div>
+
+    {/* Vista previa fuera de la grilla para que no rompa el diseño */}
+    {preview && (
+      <div className="preview-container">
+        <img src={preview} alt="Vista previa" className="img-preview" />
+        <p>Vista previa del archivo seleccionado</p>
+      </div>
+    )}
+
+    <div className="form-actions">
+      <button type="submit" className="btn-add">
+        {modoEdicion ? '💾 Guardar Cambios' : '➕ Registrar Mascota'}
+      </button>
+      {modoEdicion && (
+        <button type="button" className="btn-cancel" onClick={cancelarEdicion}>
+          Cancelar
+        </button>
+      )}
+    </div>
+  </form>
       </section>
 
       <section className="table-section">
@@ -222,7 +247,11 @@ const Admin = () => {
                 <td>{m.especie || (m.especie_id == 1 ? 'Perro' : m.especie_id == 2 ? 'Gato' : 'Ave')}</td>
                 <td>{m.edad} años</td>
                 <td>{m.tamano}</td>
-                <td><span className="badge-tabla">{m.estado}</span></td>
+                <td>
+                <span className={`badge-tabla status-${m.estado.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {m.estado}
+                </span>
+                </td>
                 <td>
                   <button className="btn-admin" style={{ backgroundColor: '#f1c40f', marginRight: '5px' }} onClick={() => prepararEdicion(m)}>Editar</button>
                   <button className="btn-delete" onClick={() => handleEliminar(m.id)}>Eliminar</button>

@@ -30,7 +30,7 @@ const Login = () => {
       // Alerta de Éxito
       Swal.fire({
         icon: 'success',
-        title: `¡Bienvenido, ${data.usuario.nombre_usuario}!`,
+        title: `¡Bienvenido!`,
         text: 'Acceso concedido al sistema',
         timer: 2000,
         showConfirmButton: false

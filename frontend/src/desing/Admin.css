@@ -1,0 +1,233 @@
+/* =========================================
+   PANEL ADMINISTRATIVO (Admin.css)
+   ========================================= */
+
+.admin-container {
+  padding: 3rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.form-section, .table-section {
+  background: var(--blanco);
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: var(--shadow-premium);
+  margin-bottom: 3rem;
+}
+
+.form-section h2 {
+  margin-bottom: 2rem;
+  color: var(--texto-oscuro);
+  font-size: 1.5rem;
+}
+
+/* --- FORMULARIO REDISEÑADO (2 COLUMNAS) --- */
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--texto-gris);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-left: 5px;
+}
+
+.admin-form select, 
+.admin-form input {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  width: 100%;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  color: var(--texto-oscuro);
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+  border-color: var(--naranja-principal);
+  background: white;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+}
+
+.file-input {
+  cursor: pointer;
+  padding: 0.6rem !important;
+}
+
+/* --- VISTA PREVIA --- */
+.preview-container {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 20px;
+  border: 2px dashed #cbd5e1;
+  margin-top: -1rem;
+}
+
+.img-preview {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 4px solid white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  margin: 0 auto 10px;
+  display: block;
+}
+
+.preview-container p {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* --- BOTONES Y ACCIONES --- */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-add {
+  flex: 2;
+  background: linear-gradient(135deg, var(--naranja-principal), var(--naranja-oscuro));
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+}
+
+.btn-cancel {
+  flex: 1;
+  background: #f1f5f9;
+  color: #64748b;
+  border: none;
+  padding: 1rem;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* --- TABLA DE GESTIÓN --- */
+.table-section {
+  overflow-x: auto;
+}
+
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-section th {
+  background-color: #f8fafc;
+  padding: 1.2rem;
+  text-align: left;
+  color: var(--texto-gris);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-bottom: 2px solid #edf2f7;
+}
+
+.table-section td {
+  padding: 1.2rem;
+  border-bottom: 1px solid #edf2f7;
+  vertical-align: middle;
+}
+
+/* --- STATUS BADGES (COLORES DINÁMICOS) --- */
+.badge-tabla {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.status-disponible {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.status-en-proceso {
+  background-color: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fef08a;
+}
+
+.status-adoptado {
+  background-color: #fedbdb;
+  color: #da190f;
+  border: 1px solid #febfbf;
+}
+
+/* --- BOTONES ACCIÓN TABLA --- */
+.btn-admin { 
+  background: #f1c40f; 
+  color: white; 
+  border: none; 
+  padding: 8px 16px; 
+  border-radius: 10px; 
+  font-weight: 600; 
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-delete { 
+  background: var(--rojo-delete); 
+  color: white; 
+  border: none; 
+  padding: 8px 16px; 
+  border-radius: 10px; 
+  font-weight: 600; 
+  cursor: pointer; 
+}
+
+/* --- RESPONSIVIDAD --- */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-actions {
+    flex-direction: column;
+  }
+}
