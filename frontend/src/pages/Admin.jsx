@@ -41,6 +41,7 @@ const Admin = () => {
   useEffect(() => {
     const role = localStorage.getItem('userRole');
     if (role !== 'admin') { navigate('/'); return; }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refrescarLista();
   }, [navigate]);
 

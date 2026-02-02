@@ -11,6 +11,7 @@ function App() {
 
   useEffect(() => {
     const role = localStorage.getItem('userRole');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUserRole(role);
   }, []);
 
