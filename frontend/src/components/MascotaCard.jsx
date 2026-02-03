@@ -1,10 +1,13 @@
 const MascotaCard = ({ mascota, onOpenModal }) => {
-  const BASE_URL = import.meta.env.VITE_API_URL;
+  // Obtenemos la URL base pero le quitamos el '/api' para las fotos
+  const BASE_URL = import.meta.env.VITE_API_URL.replace('/api', '');
+  
   const estadoClase = mascota.estado.toLowerCase().replace(/\s+/g, '-');
 
+  // Construimos la URL final asegurándonos de que haya una barra entre ellas
   const fullImageUrl = mascota.imagen_url?.startsWith('http') 
     ? mascota.imagen_url 
-    : `${BASE_URL}${mascota.imagen_url}`;
+    : `${BASE_URL}/${mascota.imagen_url}`.replace(/\/+/g, '/').replace('http:/', 'http://');
 
   return (
     <div className="card">

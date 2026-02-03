@@ -26,13 +26,14 @@ const Modal = ({ mascota, onClose }) => {
         
         <div className="modal-body">
           <div className="modal-image">
-            <img 
-              src={mascota.imagen_url?.startsWith('http') 
-                ? mascota.imagen_url 
-                : `${import.meta.env.VITE_API_URL}${mascota.imagen_url}`} 
-              alt={mascota.nombre} 
-            />
-          </div>
+        <img 
+            src={mascota.imagen_url?.startsWith('http') 
+            ? mascota.imagen_url 
+            : `${import.meta.env.VITE_API_URL.replace('/api', '')}/${mascota.imagen_url}`.replace(/\/+/g, '/').replace('http:/', 'http://')} 
+            alt={mascota.nombre} 
+            onError={(e) => e.target.src = 'https://via.placeholder.com/600x400?text=No+Image'}
+        />
+        </div>
           
           <div className="modal-info">
             {enviado ? (

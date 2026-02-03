@@ -1,5 +1,5 @@
 /* =========================================
-   1. RESET Y VARIABLES CORPORATIVAS
+   1. RESET Y VARIABLES 
    ========================================= */
 * {
   margin: 0;
@@ -76,7 +76,7 @@ body {
 }
 
 /* =========================================
-   3. LOGIN PREMIUM
+   3. LOGIN
    ========================================= */
 .login-page {
   height: 100vh;
@@ -154,7 +154,7 @@ body {
 }
 
 /* =========================================
-   4. HOME PROFESIONAL + CARDS MEJORADAS
+   4. HOME PROFESIONAL + CARDS
    ========================================= */
 .hero-section {
   width: 100%;
@@ -278,7 +278,6 @@ body {
   gap: 35px;
 }
 
-/* CARDS — versión mejorada con mejor disposición de textos */
 /* =========================================
    CARDS REDISEÑADAS CON MARCO Y DETALLES
    ========================================= */
@@ -388,7 +387,7 @@ body {
   position: absolute;
   bottom: 15px;
   right: 15px;
-  padding: 8px 16px; /* Un poco más de aire */
+  padding: 8px 16px;
   border-radius: 50px;
   font-size: 0.7rem;
   font-weight: 800;
@@ -396,7 +395,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  border: 1.5px solid rgba(255, 255, 255, 0.3); /* Bordesito fino para dar calidad */
+  border: 1.5px solid rgba(255, 255, 255, 0.3); /* Borde fino para dar calidad */
   z-index: 10;
 }
 
@@ -411,7 +410,7 @@ body {
   background: linear-gradient(135deg, #ffa502, #ff7f50); 
 }
 
-/* 3. ADOPTADO: Gris azulado (Sello finalizado) */
+/* 3. ADOPTADO: Rojo (Sello finalizado) */
 .status-tag.adoptado { 
   background: linear-gradient(135deg, #ff4757, #ff6b81);
   box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
@@ -606,7 +605,6 @@ body {
   margin: 0 auto;
 }
 
-/* Variante featured para MascotaCard (en tu componente MascotaCard) */
 .card.variant-featured {
   border: 3px solid var(--naranja-principal);
   box-shadow: 0 15px 40px rgba(255, 140, 0, 0.18);
@@ -659,7 +657,7 @@ body {
 .stat-item h3 {
   font-size: 1.5rem;
   margin: 15px 0 10px 0;
-  color: #fff; /* O el color que prefieras */
+  color: #fff; 
 }
 
 .stat-description {

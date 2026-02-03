@@ -9,15 +9,22 @@ import Modal from '../components/Modal'; // Importamos el nuevo componente
  * Ahora con capacidad de abrir el modal al hacer clic
  */
 const MascotaProfile = ({ mascota, onOpen }) => {
-  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  // 1. Limpiamos el /api de la URL para las imágenes
+  const BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+  
+  // 2. Construimos la URL asegurando que no queden dobles barras (//)
   const fullImageUrl = mascota.imagen_url?.startsWith('http') 
     ? mascota.imagen_url 
-    : `${BASE_URL}${mascota.imagen_url}`;
+    : `${BASE_URL}/${mascota.imagen_url}`.replace(/\/+/g, '/').replace('http:/', 'http://');
 
   return (
     <div className="mini-profile-item" onClick={onOpen} style={{ cursor: 'pointer' }}>
       <div className="mini-photo-wrapper">
-        <img src={fullImageUrl} alt={mascota.nombre} />
+        <img 
+          src={fullImageUrl} 
+          alt={mascota.nombre} 
+          onError={(e) => e.target.src = 'https://via.placeholder.com/150?text=No+Image'}
+        />
         <div className="mini-label">DESTACADO</div>
       </div>
       <h4>{mascota.nombre}</h4>
@@ -33,8 +40,6 @@ function Home() {
   
   // ESTADO PARA EL MODAL: Guarda la mascota seleccionada
   const [selectedPet, setSelectedPet] = useState(null);
-
-  // ... dentro de function Home() ...
 
 useEffect(() => {
   const observerOptions = {

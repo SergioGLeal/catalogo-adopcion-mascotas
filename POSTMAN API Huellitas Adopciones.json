@@ -1,0 +1,162 @@
+{
+  "info": {
+    "_postman_id": "8e2fcc32-9e3b-4d65-916e-8a0033240a28",
+    "name": "API Huellitas Adopciones",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52039091",
+    "_collection_link": "https://go.postman.co/collection/52039091-8e2fcc32-9e3b-4d65-916e-8a0033240a28?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GET: \"Listar Mascotas\"",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/mascotas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "mascotas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST: \"Crear Mascota\"",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "id",
+              "value": "25",
+              "type": "text",
+              "uuid": "0925f0f6-2649-4a20-9044-4d78c3f1926e"
+            },
+            {
+              "key": "nombre",
+              "value": "Daniel",
+              "type": "text",
+              "uuid": "a67f26b6-8b0e-49ef-b9ac-745718f2bf97"
+            },
+            {
+              "key": "edad",
+              "value": "2",
+              "type": "text",
+              "uuid": "c0450cb4-ff0a-4f18-a538-2d1f76f52097"
+            },
+            {
+              "key": "tamano",
+              "value": "Mediano",
+              "type": "text",
+              "uuid": "bb23c358-73c3-408b-a2e3-39c8ca9ac9d2"
+            },
+            {
+              "key": "estado",
+              "value": "Disponible",
+              "type": "text",
+              "uuid": "2e9e90ab-70ff-49db-ae3a-155e324b10f6"
+            },
+            {
+              "key": "imagen",
+              "type": "file",
+              "uuid": "ab210919-b049-4fa3-91d5-bb4cb33eacb2",
+              "src": "/C:/Users/sergi/Downloads/imagenes mascotas/perro5.jpg"
+            },
+            {
+              "key": "especie_id",
+              "value": "1",
+              "type": "text",
+              "uuid": "caaa097f-9fb5-431f-99fd-5a7f3ea07a10"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/mascotas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "mascotas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT: \"Actualizar Mascota\"",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "nombre",
+              "value": "daniel nuevo",
+              "type": "text",
+              "uuid": "39badb6f-7d85-4f45-acc6-b69659e4c9ba"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/mascotas/30",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "mascotas",
+            "30"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE: \"Eliminar Mascota\"",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "nombre",
+              "value": "daniel nuevo",
+              "type": "text",
+              "uuid": "39badb6f-7d85-4f45-acc6-b69659e4c9ba"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/mascotas/30",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "mascotas",
+            "30"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

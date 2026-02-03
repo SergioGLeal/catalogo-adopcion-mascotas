@@ -9,10 +9,10 @@
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Cambiado a start para que en móviles pequeños empiece arriba */
+  align-items: flex-start; 
   z-index: 2000;
   padding: 20px;
-  overflow-y: auto; /* PERMITE EL SCROLL AQUÍ */
+  overflow-y: auto; 
 }
 
 /* --- CUERPO DEL MODAL --- */
@@ -53,7 +53,7 @@
   display: block;
 }
 
-/* --- SECCIÓN DE INFORMACIÓN (DERECHA) --- */
+/* --- SECCIÓN DE INFORMACIÓN --- */
 .modal-info {
   padding: 40px;
   display: flex;
@@ -62,7 +62,7 @@
 }
 
 .modal-tag {
-  color: #ff7675; /* O tu color naranja principal */
+  color: #ff7675;
   font-weight: 800;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -155,14 +155,11 @@
   background: #fff5f5; /* Un fondo rosado muy sutil */
 }
 
-/* Estilo base por si no coincide ninguna clase */
 .status-highlight {
   font-weight: 800;
   text-transform: capitalize;
 }
 
-/* Opcional: Si quieres que la micro-tarjeta también cambie levemente el borde 
-   según el estado, puedes añadir esto: */
 .modal-stat-card:has(.disponible) { border-color: rgba(46, 213, 115, 0.3); }
 .modal-stat-card:has(.en-proceso) { border-color: rgba(255, 165, 2, 0.3); }
 
@@ -186,7 +183,7 @@
   border-radius: 50%;
   font-size: 1.5rem;
   cursor: pointer;
-  z-index: 2010; /* Por encima de todo */
+  z-index: 2010;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   display: flex;
   align-items: center;
@@ -245,7 +242,7 @@
   }
 
   .modal-info h2 {
-    font-size: 1.8rem; /* Título más pequeño */
+    font-size: 1.8rem; 
   }
 
   .modal-close {
@@ -257,7 +254,7 @@
 
 @media (max-width: 480px) {
   .modal-stats-grid {
-    grid-template-columns: 1fr; /* Una columna para que no se vea apretado */
+    grid-template-columns: 1fr;
     gap: 8px;
   }
   

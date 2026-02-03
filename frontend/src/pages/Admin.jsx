@@ -11,7 +11,7 @@ const Admin = () => {
   const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
   const [preview, setPreview] = useState(null);
   
-  const BASE_URL = import.meta.env.VITE_API_URL;
+  const BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
 
   const estadoInicial = {
     nombre: '', 
@@ -97,13 +97,10 @@ const Admin = () => {
   setModoEdicion(true);
   setEditId(m.id);
 
-  // LOG de control para que veas en la consola del navegador qué llega
   console.log("Mascota a editar:", m);
 
   setForm({
     nombre: m.nombre,
-    // IMPORTANTE: m.especie_id debe venir de la consulta GET del backend
-    // Si tu backend devuelve el nombre como 'especie', asegúrate de tener el ID
     especie_id: m.especie_id ? String(m.especie_id) : '1', 
     edad: m.edad,
     tamano: m.tamano || 'Mediano',
@@ -111,7 +108,15 @@ const Admin = () => {
     imagen_url: m.imagen_url
   });
 
-  setPreview(m.imagen_url ? `${BASE_URL}${m.imagen_url}` : null);
+  if (m.imagen_url) {
+    const fullUrl = m.imagen_url.startsWith('http') 
+      ? m.imagen_url 
+      : `${BASE_URL}/${m.imagen_url}`.replace(/\/+/g, '/').replace('http:/', 'http://');
+    setPreview(fullUrl);
+  } else {
+    setPreview(null);
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 

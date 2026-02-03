@@ -1,5 +1,5 @@
 /* =========================================
-   PANEL ADMINISTRATIVO (Admin.css)
+   PANEL ADMINISTRATIVO
    ========================================= */
 
 .admin-container {
@@ -27,7 +27,7 @@
   font-size: 1.5rem;
 }
 
-/* --- FORMULARIO REDISEÑADO (2 COLUMNAS) --- */
+/* --- FORMULARIO --- */
 .admin-form {
   display: flex;
   flex-direction: column;
