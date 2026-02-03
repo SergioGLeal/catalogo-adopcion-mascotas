@@ -60,3 +60,16 @@ Para acceder al panel administrativo:
 Administrador: admin / admin123
 
 Usuario Normal: usuario / user123
+
+## 🚀 Endpoints de la API
+
+### 🐾 Mascotas
+| Método | Endpoint | Descripción |
+| `GET` | `/api/mascotas` | Obtener todas las mascotas |
+| `POST` | `/api/mascotas` | Crear mascota (Requiere **Form-Data** con imagen) |
+| `PUT` | `/api/mascotas/:id` | Actualizar datos de una mascota |
+| `DELETE` | `/api/mascotas/:id` | Eliminar una mascota de la base de datos |
+
+### 🔐 Autenticación
+| Método | Endpoint | Descripción |
+| `POST` | `/api/auth/login` | Inicia sesión y retorna datos del usuario y rol |
