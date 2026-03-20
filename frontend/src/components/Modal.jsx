@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'; // Importa useEffect
+import { useEffect, useState } from 'react';
 import '../desing/Modal.css';
 
 const Modal = ({ mascota, onClose }) => {

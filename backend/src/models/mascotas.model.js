@@ -24,7 +24,6 @@ const Mascota = {
     return result.insertId;
   },
 
-  // mascotas.model.js
 
 update: async (id, datos) => {
   const fields = [];
